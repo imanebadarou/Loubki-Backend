@@ -10,14 +10,3 @@ mydb = mysql.connector.connect(
     database="MVC"
 )
 mycursor = mydb.cursor()
-
-# mycursor.execute('''create table games(id int primary key auto_increment, nom varchar(50), prix int, description varchar(200))
-#                  ''')
-# mydb.commit()
-
-@serveur.route('/')
-def accueil():
-    return render_template('accueil.html')
-
-
-    
