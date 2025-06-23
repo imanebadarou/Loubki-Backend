@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Documentation API</title>
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        h1 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test </h1>
+    {% if histoires %}
+        <ul>
+            {% for histoire in histoires %}
+                <li>{{ histoire[1] }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Pas d'histoire dispo :(</p>
+    {% endif %}
+</body>
+</html>
