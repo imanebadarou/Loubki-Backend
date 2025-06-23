@@ -5,16 +5,42 @@
 \paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
-\f0\fs22 \cf2 \CocoaLigature0 create table histoire(id_hist int primary key, nom_hist varchar(30), img_hist varchar(100));\
+\f0\fs22 \cf2 \CocoaLigature0 create table histoire(id_hist int primary key, nom_hist varchar(30), resume_hist text, img_hist varchar(100));\
 \
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
-create table chapitre(id_chap int primary key, contenu_chap TEXT, id_hist int, FOREIGN KEY(id_hist) REFERENCES histoire(id_hist));\
+create table chapitre(id_chap int primary key, nom_chap varchar(100), contenu_chap TEXT, id_hist int, FOREIGN KEY(id_hist) REFERENCES histoire(id_hist));\
 \
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 create table choix(id_choix int PRIMARY key, txt_choix TEXT, chap_prev int, chap_next int, FOREIGN KEY(chap_next, chap_prev) REFERENCES chapitre(id_chap, id_chap));\
 \
 create table objet(id_obj int PRIMARY KEY, nom_obj varchar(30));\
 \
 create table obtenir(id_obj int, id_chap int, quantite int, FOREIGN KEY (id_obj) REFERENCES objet(id_obj), FOREIGN KEY (id_chap) REFERENCES  chapitre(id_chap), PRIMARY KEY (id_obj, id_chap));\
 \
-create table required(id_obj int, id_choix int , perd_obj boolean, FOREIGN KEY(id_obj) REFERENCES objet(id_obj), FOREIGN KEY (id_choix) REFERENCES choix(id_choix), PRIMARY KEY (id_obj, id_choix));}
+create table required(id_obj int, id_choix int , perd_obj boolean, FOREIGN KEY(id_obj) REFERENCES objet(id_obj), FOREIGN KEY (id_choix) REFERENCES choix(id_choix), PRIMARY KEY (id_obj, id_choix));\
+\
+\'97\'97\
+INSERT INTO histoire(id_hist, nom_hist, resume_hist) VALUES\
+(1, 'Neon Blackout', 'Tu es un hacker traqu\'e9 dans une ville cyberpunk. D\'e9sactive ta puce ou sois captur\'e9.');\
+\
+INSERT INTO chapitre(id_chap, nom_chap, contenu_chap, id_hist) VALUES\
+(2, "Le March\'e9 Synth\'e9tique", "Le march\'e9 grouille de vendeurs... certains trafiquent de la data noire. Un bruit sec : deux options s\'92offrent \'e0 toi :\\n\\n1. Voler un **Code d\'92acc\'e8s alpha** \'e0 un \'e9tal sans attirer l\'92attention.\\n2. Acheter un **Masque brouilleur**, indispensable contre les drones.  \\nTon c\'9cur bat : tu sens le pi\'e8ge.", 1),\
+(3, "Le Tunnel Abandonn\'e9", "Un tunnel sombre creus\'e9 sous la ville. L\'92air est lourd et il y a **drones patrouilleurs**, leurs capteurs projettent une lumi\'e8re bleue.\\n\\nSans le masque, chaque coin pourrait \'eatre ton dernier. L\'92\'e9cho de tes pas r\'e9sonne \'e9trangement.", 1),\
+(4, "Le Terminal Verrouill\'e9", "Terminal gris, griff\'e9. Un \'e9cran affiche\'a0: **\'93CODE REQUIS\'94**. Tu poses la main sur le clavier, sentant la pression monter. Derri\'e8re toi, l\'92obscurit\'e9 grouille de secrets\'85", 1),\
+(5, "La Tour Invers\'e9e", "Tu remontes les conduits jusqu\'92\'e0 une passerelle, puis escalades un pyl\'f4ne m\'e9tallique dominant la ville.\\nLes bruits sont clairs\'a0: sir\'e8nes, drones, v\'e9hicules furtifs.\\n\\nUn panneau lumineux annonce\'a0: **Antenne relais \'96 derni\'e8re \'e9tape.** Tu as le code ou la capsule pour d\'e9tourner le signal.", 1),\
+(6, "La D\'e9connexion", "Les connexions br\'fblent dans ta t\'eate puis s\'92\'e9teignent. Tu l\'e2ches un cri, ressentant une paix in\'e9dite.\\n\\n**FIN \uc0\u9989  :** la puce est morte. Tu redeviens fant\'f4me parmi les ombres.", 1),\
+(7, "La Traque Finale", "Des drones surgissent, encerclent le pyl\'f4ne. Tu ne peux plus bouger.\\n\\n> **GAME OVER \uc0\u10060 **\\nTu es saisi, le noir t\'92avale.", 1),\
+(8, "Le Bar de Nyx", "Lumi\'e8re tamis\'e9e, musiques satur\'e9es. Nyx, silhouette encapuchonn\'e9e, te propose un accord\'a0: le **Jeton de Nyx** promet un passage prot\'e9g\'e9\'85 mais \'e0 quel prix ?\\n\\nTon instinct te crispe.", 1),\
+(9, "Les \'c9gouts Inond\'e9s", "Les eaux us\'e9es refl\'e8tent des n\'e9ons verts. Tu distingues des drones adapt\'e9s \'e0 l\'92humidit\'e9.\\n\\n> *Indice\'a0: un brouilleur ou une **Capsule de d\'e9routage** pourrait te sauver.*", 1),\
+(10, "La Salle du Miroir", "Un cube m\'e9tallique, murs recouverts de miroirs num\'e9riques.\\nUne IA te confond\'a0: \'ab\uc0\u8239 Fusionne avec nous. Tu seras libre autrement.\u8239 \'bb Mais soudain l\'92image se brise, ton reflet se fissure.", 1),\
+(11, "Le Faux Terminal", "Tu tapes un code vite, la porte s\'92ouvre. Derri\'e8re : un vide sans fond, portes qui claquent.\\n\\nTu es pi\'e9g\'e9.", 1),\
+(12, "\'c9veil dans le Vide", "Tu flottes dans une matrice sans rep\'e8res. Ton corps est absent. Tu **es** la donn\'e9e...\\n\\n**Fin myst\'e9rieuse** : tu as fusionn\'e9, ou bien tu t\'92es perdu.", 1),\
+(13, "Le Cimeti\'e8re de Serveurs", "Tours \'e9teintes, c\'e2bles pendus. Des n\'e9ons \'e9teints filtrent la poussi\'e8re.\\nTu fouilles un terminal d\'e9sactiv\'e9 et trouves une **Cl\'e9 m\'e9moire effac\'e9e** \'97 destin\'e9e \'e0 d\'e9bloquer ta m\'e9moire ou briser la boucle de l\'92IA.", 1),\
+(14, "M\'e9moire Corrompue", "Flashbacks\'a0: un enfant que tu ne reconnais pas, portes, cris. Ton c\'9cur palpite\'a0: est-ce ton pass\'e9... ou un leurre inject\'e9\'a0?", 1),\
+(15, "La Porte Quantique", "Une porte luminescente, pulsant de donn\'e9es. L\'92interface demande l\'92usage d\'92une **Cl\'e9 m\'e9moire** ou d\'92un **Artefact Souverain**. Au\uc0\u8209 del\'e0\'a0: la v\'e9rit\'e9.", 1),\
+(16, "La R\'e9plique Invers\'e9e", "Dans un halo de pixels invers\'e9s, une silhouette se mat\'e9rialise\'a0: ton clone num\'e9rique. Il te parle d\'92usurpation\'a0: \'ab\uc0\u8239 Tu n\'92as plus ta place.\u8239 \'bb", 1),\
+(17, "Nyx - Mode Souverain", "Nyx appara\'eet dans une projection holographique et te tend un **Artefact Souverain**.\\n\'ab\uc0\u8239 Avec \'e7a, tu pourras effacer ta pr\'e9sence... ou r\'e9gner.\u8239 \'bb", 1),\
+(18, "D\'e9rive Mentale", "Le sol se balance, les murs fondent. Les n\'e9ons glissent en lignes flottantes.\\nTon esprit vacille.", 1),\
+(19, "Le Dernier Drone", "Tu d\'e9clenches une s\'e9quence d\'92usurpation : prends le contr\'f4le du drone ennemi ou \'e9choue.\\nLe combat sera brutal.", 1),\
+(20, "Silence Protocol", "Tu d\'e9clenches le protocole d\'92extinction de l\'92infrastructure.\\n**Les lumi\'e8res de la ville s\'92\'e9teignent**, tout s\'92arr\'eate.", 1),\
+(21, "Renaissance Digitale", "Tu deviens l\'92esprit du r\'e9seau\'a0: omnipr\'e9sent, invisible. La cit\'e9 fonctionne \'e0 ton gr\'e9.\\n\\n**FIN \uc0\u9989  :** tu contr\'f4les tout.", 1),\
+(22, "Extraction Manqu\'e9e", "Le syst\'e8me l\'e2che : douleur, fum\'e9e. Tu t\'92effondres dans l\'92obscurit\'e9.\\n\\n**FIN \uc0\u10060  :** tu \'e9choues d\'92un souffle.", 1);\
+}
