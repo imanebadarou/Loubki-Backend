@@ -13,8 +13,9 @@ def get_db():
 def list_histoires():
     cur = get_db().cursor()
     cur.execute("SELECT * FROM histoire")
+    columns = [desc[0] for desc in cur.description]
     rows = cur.fetchall()
-    return rows
+    return [dict(zip(columns, row)) for row in rows]
 
 def close_connection(exception):
     db = getattr(g, '_database', None)
