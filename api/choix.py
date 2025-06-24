@@ -1,5 +1,5 @@
 from flask_restx import Namespace, Resource, fields
-from model.choix import list_choix, choix_id
+from model.choix import list_choix, choix_id, choix_chap
 
 api = Namespace('Choix', description='Gestion des choix d\'un chapitre')
 
@@ -21,3 +21,9 @@ class Choix(Resource):
     def get(self, key):
         choixid = choix_id(key)
         return choixid
+    
+@api.route('/<hist>/<chap>', methods=["GET"])
+class Choix(Resource):
+    def get(self, hist, chap):
+        choixChap = choix_chap(hist, chap)
+        return choixChap
