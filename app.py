@@ -9,7 +9,10 @@ from api.objet import api as objet_ns
 from api.obtenir import api as obtenir_ns
 from api.requis import api as requis_ns
 
+from flask_cors import CORS
+
 app = Flask(__name__)
+CORS(app)
 api = Api(app, version='Beta', title='Loubki API',
     description='API de l\'application Loubki')
 
