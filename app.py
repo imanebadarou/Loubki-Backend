@@ -1,14 +1,24 @@
-from flask import Flask, render_template
-from model import *
-from flask_restx import Api, Resource
+from flask import Flask
+from flask_restx import Api
+from db import close_connection
+
+from api.histoire import api as histoire_ns
+from api.choix import api as choix_ns
+from api.chapitre import api as chapitre_ns
+from api.objet import api as objet_ns
+from api.obtenir import api as obtenir_ns
+from api.requis import api as requis_ns
 
 app = Flask(__name__)
-api = Api(app)
+api = Api(app, version='Beta', title='Loubki API',
+    description='API de l\'application Loubki')
 
-@api.route('/hello')
-class HelloWorld(Resource):
-    def get(self):
-        return {'hello': 'world'}
+api.add_namespace(histoire_ns,  path='/histoire')
+api.add_namespace(choix_ns,     path='/choix')
+api.add_namespace(chapitre_ns,  path='/chapitre')
+api.add_namespace(objet_ns,     path='/objet')
+api.add_namespace(obtenir_ns,   path='/obtenir')
+api.add_namespace(requis_ns,    path='/requis')
 
 if __name__ == '__main__':
     app.run(debug=True)
@@ -17,33 +27,3 @@ if __name__ == '__main__':
 def app_teardown(exception):
     """Close the database connection at the end of the request."""
     close_connection(exception)
-
-@api.route('/histoires')
-class Histoire(Resource):
-    def get(self):
-        histoires = list_histoires()
-        return histoires
-    
-@api.route('/histoire/<key>', methods=["GET"])
-class Histoire(Resource):
-    def get(self, key):
-        histoireid = histoire_id(key)
-        return histoireid
-
-@api.route('/histoire/<key>/choix', methods=["GET"])
-class Histoire(Resource):
-    def get(self, key):
-        histoireid = histoire_choix(key)
-        return histoireid
-
-@api.route('/choix')
-class Choix(Resource):
-    def get(self):
-        choix = list_choix()
-        return choix
-    
-@api.route('/choix/<key>', methods=["GET"])
-class Choix(Resource):
-    def get(self, key):
-        choixid = choix_id(key)
-        return choixid
