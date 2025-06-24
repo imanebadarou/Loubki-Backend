@@ -25,13 +25,39 @@ class ChapitreDetail(Resource):
         chap_hist = chap_id(id_hist, id_chap)
         obj_obt = obj_obtenu_chap(id_chap)
         chap_chap = choix_chap(id_hist, id_chap)
-        # on extrait les id_choix des choix du chapitre
-        choix_ids = [choix['id_choix'] for choix in chap_chap]
-        # on appelle obj_requis_choix pour chaque id_choix
-        obj_req = [obj_requis_choix(id_choix) for id_choix in choix_ids]
+
+        # Format objets_obtenus
+        objets_obtenus = [
+            {
+                "id": obj.get("id_obj"),
+                "nom": obj.get("nom_obj"),
+                "quantite": obj.get("quantite"),
+            }
+            for obj in obj_obt
+        ]
+
+        # Pour chaque choix, ajouter les objets requis
+        choix_tab = []
+        for choix in chap_chap:
+            objets_requis = [
+                {
+                    "objet": obj_req.get("nom_obj"),
+                    "perd_obj": obj_req.get("perd_obj"),
+                }
+                for obj_req in obj_requis_choix(choix["id_choix"])
+            ]
+            choix_tab.append({
+                "id": choix.get("id_choix"),
+                "text": choix.get("txt_choix"),
+                "objets_requis": objets_requis
+            })
+
+        chapitre = chap_hist[0] if isinstance(chap_hist, list) and chap_hist else chap_hist
+
         return {
-            "chapitres": chap_hist,
-            "objets_obtenus": obj_obt,
-            "choix": chap_chap,
-            "objets_requis": obj_req
+            "id_chap": chapitre.get("id_chap"),
+            "nom_chap": chapitre.get("nom_chap"),
+            "contenu_chap": chapitre.get("contenu_chap"),
+            "objets_obtenus": objets_obtenus,
+            "choix": choix_tab
         }
