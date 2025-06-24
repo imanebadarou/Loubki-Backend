@@ -1,5 +1,5 @@
 from flask_restx import Namespace, Resource, fields
-from model.histoire import list_histoires, histoire_id, histoire_choix
+from model.histoire import list_histoires, histoire_id
 
 api = Namespace('Histoire', description='Gestion des histoires')
 
@@ -15,15 +15,10 @@ class Histoire(Resource):
     def get(self):
         histoires = list_histoires()
         return histoires
-    
+
+
 @api.route('/<key>', methods=["GET"])
 class Histoire(Resource):
     def get(self, key):
         histoireid = histoire_id(key)
-        return histoireid
-
-@api.route('/<key>/choix', methods=["GET"])
-class Histoire(Resource):
-    def get(self, key):
-        histoireid = histoire_choix(key)
         return histoireid
