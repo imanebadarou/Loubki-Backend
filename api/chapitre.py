@@ -49,6 +49,7 @@ class ChapitreDetail(Resource):
             choix_tab.append({
                 "id": choix.get("id_choix"),
                 "text": choix.get("txt_choix"),
+                "id_chap_next": choix.get("chap_next"),
                 "objets_requis": objets_requis
             })
 
