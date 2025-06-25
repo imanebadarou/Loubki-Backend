@@ -10,10 +10,10 @@ choice = api.model('Choice', {
     'next_chapter_id': fields.Integer,
 })
 
-@api.route('/')
-class ChoiceList(Resource):
-    def get(self):
-        return list_choices()
+@api.route('/from_story/<int:story_id>', methods=["GET"])
+class ChoiceFromStory(Resource):
+    def get(self, story_id):
+        return list_choices(story_id)
     
 @api.route('/<int:key>', methods=["GET"])
 class ChoiceDetail(Resource):
