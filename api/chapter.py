@@ -23,16 +23,14 @@ class ChapterDetail(Resource):
     def get(self, chapter_id):
         chapter = get_chapter(chapter_id)
         choices = list_chapter_choices(chapter_id)
-
-        # Format objets_obtenus
-        objets_obtenus = list_items_received(chapter_id)
+        received_items = list_items_received(chapter_id)
 
         # Pour chaque choix, ajouter les objets requis
         for choice in choices:
             choice['required_items'] = list_required_items(choice['id'])
 
         # Ajouter les objets obtenus au chapitre
-        chapter['objets_obtenus'] = objets_obtenus
+        chapter['received_items'] = received_items
         chapter['choices'] = choices
 
         return chapter
