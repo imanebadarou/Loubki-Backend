@@ -22,12 +22,13 @@ class StoryList(Resource):
     def post(self):
         data = api.payload
         id = create_story(data)
-        create_chapter({
+        chapter_id = create_chapter({
             'name': 'Sans titre',
             'content': '',
             'story_id': id,
             'prev_choice_id': None
         })
+        update_story(id, {'first_chapter_id': chapter_id})
         return get_story(id), 201
 
 @api.route('/<int:id>')

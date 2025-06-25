@@ -35,7 +35,7 @@ def update_story(id, data):
     cur = get_db().cursor()
     fields = []
     values = []
-    for key in ['name', 'img_url', 'description']:
+    for key in ['name', 'img_url', 'description', 'first_chapter_id']:
         if key in data:
             fields.append(f"{key}=?")
             values.append(data[key])
