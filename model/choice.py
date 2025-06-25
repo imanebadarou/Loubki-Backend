@@ -32,11 +32,9 @@ def list_chapter_choices(chapter_id):
     cur.execute("""
         SELECT choice.content, choice.id, choice.prev_chapter_id, next_chapter.id AS next_chapter_id
         FROM choice
-        JOIN chapter prev_chapter ON choice.prev_chapter_id = prev_chapter.id
-        JOIN chapter next_chapter ON choice.id = next_chapter.prev_choice_id
-        WHERE prev_chapter.id=?""",
-        (chapter_id,)
-    )
+        LEFT JOIN chapter next_chapter ON choice.id = next_chapter.prev_choice_id
+        WHERE choice.prev_chapter_id=?
+    """, (chapter_id,))
     columns = [desc[0] for desc in cur.description]
     rows = cur.fetchall()
     return [dict(zip(columns, row)) for row in rows]
