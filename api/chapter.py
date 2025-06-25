@@ -1,5 +1,5 @@
 from flask_restx import Namespace, Resource, fields
-from model.chapter import list_chapters, get_chapter
+from model.chapter import list_chapters, get_chapter, update_chapter
 from model.choice import list_chapter_choices 
 from model.item import list_items_received, list_required_items
 from api.item import item
@@ -8,11 +8,11 @@ from api.choice import choice
 api = Namespace('Chapter', description='Gestion des chapitres d\'une histoire')
 
 chapter = api.model('Chapter', {
-    'id': fields.Integer,
-    'name': fields.String,
-    'content': fields.String,
-    'story_id': fields.Integer,
-    'prev_choice_id': fields.Integer,
+    'id': fields.Integer(readonly=True, description="ID du chapitre"),
+    'name': fields.String(required=True, description="Titre du chapitre"),
+    'content': fields.String(required=True, description="Contenu du chapitre (markdown accepté)"),
+    'story_id': fields.Integer(required=True, description="ID de l'histoire liée à ce chapitre"),
+    'prev_choice_id': fields.Integer(required=True, description="ID du choix menant à ce chapitre"),
 })
 
 itemTransfer = api.inherit('ItemTransfer', item, {
@@ -35,13 +35,13 @@ class ChapterList(Resource):
     def get(self, key):
         return list_chapters(key)
 
-@api.route('/<int:chapter_id>', methods=["GET"])
+@api.route('/<int:id>', methods=["GET"])
 class ChapterDetail(Resource):
     @api.marshal_with(chapter_detail)
-    def get(self, chapter_id):
-        chapter = get_chapter(chapter_id)
-        choices = list_chapter_choices(chapter_id)
-        received_items = list_items_received(chapter_id)
+    def get(self, id):
+        chapter = get_chapter(id)
+        choices = list_chapter_choices(id)
+        received_items = list_items_received(id)
 
         # Pour chaque choix, ajouter les objets requis
         for choice in choices:
@@ -52,3 +52,10 @@ class ChapterDetail(Resource):
         chapter['choices'] = choices
 
         return chapter
+    
+    @api.expect(chapter)
+    @api.marshal_with(chapter)
+    def put(self, id):
+        data = api.payload
+        update_chapter(id, data)
+        return get_chapter(id)
