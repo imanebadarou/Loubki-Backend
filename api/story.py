@@ -3,7 +3,7 @@ from model.story import list_stories, get_story
 
 api = Namespace('Story', description='Gestion des histoires')
 
-histoire = api.model('Story', {
+story = api.model('Story', {
     'id': fields.Integer,
     'name': fields.String,
     'img_url': fields.Integer,
