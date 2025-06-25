@@ -15,7 +15,7 @@ class ChoiceList(Resource):
     def get(self):
         return list_choices()
     
-@api.route('/<key>', methods=["GET"])
+@api.route('/<int:key>', methods=["GET"])
 class ChoiceDetail(Resource):
     def get(self, key):
         return get_choice(key)

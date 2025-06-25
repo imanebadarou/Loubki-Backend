@@ -13,8 +13,8 @@ def get_story(id):
     cur = get_db().cursor()
     cur.execute('SELECT * FROM story WHERE id=?',(id,))
     columns = [desc[0] for desc in cur.description]
-    rows = cur.fetchall()
-    return [dict(zip(columns, row)) for row in rows]
+    row = cur.fetchall()
+    return dict(zip(columns, row))
 
 # @staticmethod
 # def histoire_choix(id):

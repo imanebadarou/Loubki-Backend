@@ -5,7 +5,7 @@ from model.item import list_items_received, list_required_items
 
 api = Namespace('Chapter', description='Gestion des chapitres d\'une histoire')
 
-chapitre = api.model('Chapter', {
+chapter = api.model('Chapter', {
     'id': fields.Integer,
     'name': fields.String,
     'content': fields.String,

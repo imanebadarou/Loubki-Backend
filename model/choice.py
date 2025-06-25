@@ -11,10 +11,10 @@ def list_choices():
 @staticmethod
 def get_choice(id):
     cur = get_db().cursor()
-    cur.execute('SELECT * FROM choice WHERE id_choix=?', (id,))
+    cur.execute('SELECT * FROM choice WHERE id=?', (id,))
     columns = [desc[0] for desc in cur.description]
-    rows = cur.fetchall()
-    return [dict(zip(columns, row)) for row in rows]
+    row = cur.fetchone()
+    return dict(zip(columns, row))
 
 @staticmethod
 def list_chapter_choices(chapter_id):
