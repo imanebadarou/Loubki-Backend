@@ -14,10 +14,10 @@ CORS(app)
 api = Api(app, version='Beta', title='Loubki API',
     description='API de l\'application Loubki')
 
-api.add_namespace(story_ns,     path='/story')
-api.add_namespace(choice_ns,    path='/choice')
-api.add_namespace(chapter_ns,   path='/chapter')
-api.add_namespace(item_ns,      path='/item')
+api.add_namespace(story_ns,     path='/stories')
+api.add_namespace(choice_ns,    path='/choices')
+api.add_namespace(chapter_ns,   path='/chapters')
+api.add_namespace(item_ns,      path='/items')
 
 if __name__ == '__main__':
     app.run(debug=True)
