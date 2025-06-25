@@ -9,21 +9,16 @@ objet = api.model('Item', {
 })
 
 @api.route('/')
-class Item(Resource):
+class ItemList(Resource):
     def get(self):
         return list_items()
 
-@api.route('/requis')
-class Item(Resource):
-    def get(self):
-        return list_required_items()
-
 @api.route('/required_from_choice/<int:choice_id>/')
-class Item(Resource):
+class ItemFromChoice(Resource):
     def get(self, choice_id):
         return list_required_items(choice_id)
 
 @api.route('/received_from_chapter/<int:chapter_id>/')
-class Item(Resource):
+class ItemFromChapter(Resource):
     def get(self, chapter_id):
         return list_items_received(chapter_id)

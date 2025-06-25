@@ -11,16 +11,16 @@ choix = api.model('Choice', {
 })
 
 @api.route('/')
-class Choice(Resource):
+class ChoiceList(Resource):
     def get(self):
         return list_choices()
     
 @api.route('/<key>', methods=["GET"])
-class Choix(Resource):
+class ChoiceDetail(Resource):
     def get(self, key):
         return get_choice(key)
     
 @api.route('/from_chapter/<int:chapter_id>', methods=["GET"])
-class Choix(Resource):
+class ChoiceFromChapter(Resource):
     def get(self, chapter_id):
         return list_chapter_choices(chapter_id)

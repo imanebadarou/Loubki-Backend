@@ -11,12 +11,12 @@ histoire = api.model('Story', {
 })
 
 @api.route('/')
-class Story(Resource):
+class StoryList(Resource):
     def get(self):
         return list_stories()
 
 
 @api.route('/<int:key>', methods=["GET"])
-class Story(Resource):
+class StoryDetail(Resource):
     def get(self, key):
         return get_story(key)

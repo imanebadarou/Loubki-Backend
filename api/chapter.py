@@ -13,7 +13,7 @@ chapitre = api.model('Chapter', {
 })
 
 @api.route('/from_story/<int:key>', methods=["GET"])
-class Chapter(Resource):
+class ChapterList(Resource):
     def get(self, key):
         return list_chapters(key)
 
