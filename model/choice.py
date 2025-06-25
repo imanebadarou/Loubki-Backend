@@ -1,5 +1,7 @@
 from db import get_db
 
+# SELECT
+
 @staticmethod
 def list_choices(story_id):
     cur = get_db().cursor()
@@ -40,3 +42,44 @@ def list_chapter_choices(chapter_id):
     columns = [desc[0] for desc in cur.description]
     rows = cur.fetchall()
     return [dict(zip(columns, row)) for row in rows]
+
+# CREATE
+
+@staticmethod
+def create_choice(data):
+    db = get_db()
+    cur = db.cursor()
+    cur.execute(
+        "INSERT INTO choice (content, prev_chapter_id) VALUES (?, ?)",
+        (data['content'], data['prev_chapter_id'])
+    )
+    db.commit()
+    return cur.lastrowid
+
+@staticmethod
+def update_choice(choice_id, content=None, prev_chapter_id=None):
+    db = get_db()
+    cur = db.cursor()
+    fields = []
+    values = []
+    if content is not None:
+        fields.append("content=?")
+        values.append(content)
+    if prev_chapter_id is not None:
+        fields.append("prev_chapter_id=?")
+        values.append(prev_chapter_id)
+    values.append(choice_id)
+    cur.execute(
+        f"UPDATE choice SET {', '.join(fields)} WHERE id=?",
+        values
+    )
+    db.commit()
+    return cur.rowcount > 0
+
+@staticmethod
+def delete_choice(choice_id):
+    db = get_db()
+    cur = db.cursor()
+    cur.execute("DELETE FROM choice WHERE id=?", (choice_id,))
+    db.commit()
+    return cur.rowcount > 0
