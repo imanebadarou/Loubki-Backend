@@ -3,11 +3,9 @@
 Ce projet est une API REST pour le jeu **Loubki**, un jeu interactif de narration d'histoires.  
 L'API est conçue avec **Flask** et **Flask-RESTX**, et utilise une base de données **SQLite**.
 
-## Installation
+### Prérequis
 
 Le projet utilise [Pipenv](https://pipenv.pypa.io/en/latest/) pour la gestion des dépendances.
-
-### Prérequis
 
 - Python 3.12+
 - Pipenv
@@ -17,7 +15,7 @@ Le projet utilise [Pipenv](https://pipenv.pypa.io/en/latest/) pour la gestion de
 ```bash
 # Cloner le dépôt
 git clone <url-du-repo>
-cd Site-Backend
+cd Loubki-Backend
 
 # Installer les dépendances
 pipenv install
