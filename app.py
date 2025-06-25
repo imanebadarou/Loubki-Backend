@@ -2,12 +2,10 @@ from flask import Flask
 from flask_restx import Api
 from db import close_connection
 
-from api.histoire import api as histoire_ns
-from api.choix import api as choix_ns
-from api.chapitre import api as chapitre_ns
-from api.objet import api as objet_ns
-from api.obtenir import api as obtenir_ns
-from api.requis import api as requis_ns
+from api.story import api as story_ns
+from api.choice import api as choice_ns
+from api.chapter import api as chapter_ns
+from api.item import api as item_ns
 
 from flask_cors import CORS
 
@@ -16,12 +14,10 @@ CORS(app)
 api = Api(app, version='Beta', title='Loubki API',
     description='API de l\'application Loubki')
 
-api.add_namespace(histoire_ns,  path='/histoire')
-api.add_namespace(choix_ns,     path='/choix')
-api.add_namespace(chapitre_ns,  path='/chapitre')
-api.add_namespace(objet_ns,     path='/objet')
-api.add_namespace(obtenir_ns,   path='/obtenir')
-api.add_namespace(requis_ns,    path='/requis')
+api.add_namespace(story_ns,     path='/story')
+api.add_namespace(choice_ns,    path='/choice')
+api.add_namespace(chapter_ns,   path='/chapter')
+api.add_namespace(item_ns,      path='/item')
 
 if __name__ == '__main__':
     app.run(debug=True)
