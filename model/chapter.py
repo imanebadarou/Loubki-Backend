@@ -26,8 +26,8 @@ def create_chapter(data):
     db = get_db()
     cur = db.cursor()
     cur.execute(
-        "INSERT INTO chapter (story_id, title, content) VALUES (?, ?, ?)",
-        (data["story_id"], data["title"], data["content"])
+        "INSERT INTO chapter (story_id, name, content, prev_choice_id) VALUES (?, ?, ?, ?)",
+        (data["story_id"], data["name"], data["content"], data["prev_choice_id"])
     )
     db.commit()
     return cur.lastrowid
@@ -38,9 +38,9 @@ def update_chapter(id, data):
     cur = db.cursor()
     fields = []
     values = []
-    if "title" in data:
-        fields.append("title=?")
-        values.append(data["title"])
+    if "name" in data:
+        fields.append("name=?")
+        values.append(data["name"])
     if "content" in data:
         fields.append("content=?")
         values.append(data["content"])

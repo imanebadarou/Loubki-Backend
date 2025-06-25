@@ -22,12 +22,15 @@ def get_choice(id):
     cur.execute("""
         SELECT choice.content, choice.id, choice.prev_chapter_id, next_chapter.id AS next_chapter_id
         FROM choice 
-        JOIN chapter next_chapter ON choice.id = next_chapter.prev_choice_id
-        WHERE id=?""", 
+        LEFT JOIN chapter next_chapter ON choice.id = next_chapter.prev_choice_id
+        WHERE choice.id=?""", 
         (id,)
     )
     columns = [desc[0] for desc in cur.description]
     row = cur.fetchone()
+    print("ICI")
+    print(id)
+    print(row)
     return dict(zip(columns, row))
 
 @staticmethod

@@ -1,5 +1,6 @@
 from flask_restx import Namespace, Resource, fields
 from model.story import list_stories, get_story, create_story, update_story, delete_story
+from model.chapter import create_chapter
 
 api = Namespace('Story', description='Gestion des histoires')
 
@@ -20,7 +21,14 @@ class StoryList(Resource):
     @api.marshal_with(story, code=201)
     def post(self):
         data = api.payload
-        return create_story(data), 201
+        id = create_story(data)
+        create_chapter({
+            'name': 'Sans titre',
+            'content': '',
+            'story_id': id,
+            'prev_choice_id': None
+        })
+        return get_story(id), 201
 
 @api.route('/<int:id>')
 class StoryDetail(Resource):

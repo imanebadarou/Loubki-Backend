@@ -12,16 +12,16 @@ chapter = api.model('Chapter', {
     'name': fields.String(required=True, description="Titre du chapitre"),
     'content': fields.String(required=True, description="Contenu du chapitre (markdown accepté)"),
     'story_id': fields.Integer(required=True, description="ID de l'histoire liée à ce chapitre"),
-    'prev_choice_id': fields.Integer(required=True, description="ID du choix menant à ce chapitre"),
+    'prev_choice_id': fields.Integer(readonly=True, description="ID du choix menant à ce chapitre"),
 })
 
 itemTransfer = api.inherit('ItemTransfer', item, {
-    'quantity': fields.Integer,
-    'name': fields.String,
+    'quantity': fields.Integer(readonly=True),
+    'name': fields.String(readonly=True),
 })
 
-choice = api.inherit('Choice', choice, {
-    'required_items': fields.List(fields.Nested(itemTransfer)),
+choice = api.inherit('ChoiceWithItems', choice, {
+    'required_items': fields.List(fields.Nested(itemTransfer), readonly=True),
 })
 
 chapter_detail = api.inherit('ChapterDetail', chapter, {
@@ -35,7 +35,7 @@ class ChapterList(Resource):
     def get(self, key):
         return list_chapters(key)
 
-@api.route('/<int:id>', methods=["GET"])
+@api.route('/<int:id>')
 class ChapterDetail(Resource):
     @api.marshal_with(chapter_detail)
     def get(self, id):

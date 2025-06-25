@@ -26,7 +26,7 @@ def create_story(data):
     cur.execute('INSERT INTO story (name, img_url, description) VALUES (?, ?, ?)',
                 (data['name'], data['img_url'], data['description']))
     get_db().commit()
-    return
+    return cur.lastrowid
 
 # UPDATE
 
@@ -45,7 +45,7 @@ def update_story(id, data):
     sql = f"UPDATE story SET {', '.join(fields)} WHERE id=?"
     cur.execute(sql, values)
     get_db().commit()
-    return
+    return cur.rowcount > 0
 
 # DELETE
 
@@ -54,4 +54,4 @@ def delete_story(id):
     cur = get_db().cursor()
     cur.execute('DELETE FROM story WHERE id=?', (id,))
     get_db().commit()
-    return
+    return cur.rowcount > 0
