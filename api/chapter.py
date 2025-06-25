@@ -29,11 +29,23 @@ chapter_detail = api.inherit('ChapterDetail', chapter, {
     'choices': fields.List(fields.Nested(choice)),
 })
 
-@api.route('/from_story/<int:key>', methods=["GET"])
+@api.route('/from_story/<int:story_id>', methods=["GET"])
 class ChapterList(Resource):
-    @api.marshal_with(chapter)
-    def get(self, key):
-        return list_chapters(key)
+    @api.marshal_with(chapter_detail)
+    def get(self, story_id):
+        chapters = list_chapters(story_id)
+
+        for chapter in chapters:
+            chapter['received_items'] = list_items_received(chapter['id'])
+            choices = list_chapter_choices(chapter['id'])
+
+            # Pour chaque choix, ajouter les objets requis
+            for choice in choices:
+                choice['required_items'] = list_required_items(choice['id'])
+
+            chapter['choices'] = choices
+
+        return chapters
 
 @api.route('/<int:id>')
 class ChapterDetail(Resource):
