@@ -3,7 +3,7 @@ from model.item import list_items, list_items_received, list_required_items
 
 api = Namespace('Item', description='Gestion des objets')
 
-objet = api.model('Item', {
+item = api.model('Item', {
     'id': fields.Integer,
     'label': fields.String,
 })

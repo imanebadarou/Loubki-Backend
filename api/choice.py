@@ -3,7 +3,7 @@ from model.choice import list_choices, get_choice, list_chapter_choices
 
 api = Namespace('Choice', description='Gestion des choix d\'un chapitre')
 
-choix = api.model('Choice', {
+choice = api.model('Choice', {
     'id': fields.Integer,
     'content': fields.String,
     'prev_chapter_id': fields.Integer,
