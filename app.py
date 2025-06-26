@@ -6,6 +6,8 @@ from api.story import api as story_ns
 from api.choice import api as choice_ns
 from api.chapter import api as chapter_ns
 from api.item import api as item_ns
+from api.receive import api as receive_ns
+from api.required import api as required_ns
 
 from flask_cors import CORS
 
@@ -15,9 +17,11 @@ api = Api(app, version='Beta', title='Loubki API',
     description='API de l\'application Loubki')
 
 api.add_namespace(story_ns,     path='/stories')
-api.add_namespace(choice_ns,    path='/choices')
 api.add_namespace(chapter_ns,   path='/chapters')
+api.add_namespace(choice_ns,    path='/choices')
 api.add_namespace(item_ns,      path='/items')
+api.add_namespace(receive_ns,   path='/receive_links')
+api.add_namespace(required_ns,  path='/required_links')
 
 if __name__ == '__main__':
     app.run(debug=True)

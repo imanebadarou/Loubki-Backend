@@ -2,8 +2,9 @@ from flask_restx import Namespace, Resource, fields
 from model.chapter import list_chapters, get_chapter, update_chapter
 from model.choice import list_chapter_choices 
 from model.item import list_items_received, list_required_items
-from api.item import item
 from api.choice import choice
+from api.receive import receive
+from api.required import required
 
 api = Namespace('Chapter', description='Gestion des chapitres d\'une histoire')
 
@@ -15,18 +16,13 @@ chapter = api.model('Chapter', {
     'prev_choice_id': fields.Integer(readonly=True, description="ID du choix menant à ce chapitre"),
 })
 
-itemTransfer = api.inherit('ItemTransfer', item, {
-    'quantity': fields.Integer(readonly=True),
-    'name': fields.String(readonly=True),
-})
-
 choice = api.inherit('ChoiceWithItems', choice, {
-    'required_items': fields.List(fields.Nested(itemTransfer), readonly=True),
+    'required_items': fields.List(fields.Nested(required), readonly=True, description="Liste des objets requis pour ce choix"),
 })
 
 chapter_detail = api.inherit('ChapterDetail', chapter, {
-    'received_items': fields.List(fields.Nested(itemTransfer)),
-    'choices': fields.List(fields.Nested(choice)),
+    'received_items': fields.List(fields.Nested(receive), readonly=True, description="Liste des objets reçus dans ce chapitre"),
+    'choices': fields.List(fields.Nested(choice), readonly=True, description="Liste des choix disponibles dans ce chapitre"),
 })
 
 @api.route('/from_story/<int:story_id>', methods=["GET"])

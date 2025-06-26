@@ -2,7 +2,7 @@ from flask_restx import Namespace, Resource, fields
 from model.choice import list_choices, get_choice, list_chapter_choices, create_choice, update_choice, delete_choice
 from model.item import list_required_items
 from model.chapter import create_chapter, get_chapter, delete_chapter
-from api.item import item
+from api.required import required
 
 api = Namespace('Choice', description='Gestion des choix d\'un chapitre')
 
@@ -11,7 +11,7 @@ choice = api.model('Choice', {
     'content': fields.String(required=True, description="Description de l'action"),
     'prev_chapter_id': fields.Integer(required=True, description="ID du chapitre auquel ce choix est rattaché"),
     'next_chapter_id': fields.Integer(readonly=True, description="ID du chapitre vers lequel ce choix renvoie"),
-    'required_items': fields.List(fields.Nested(item), readonly=True),
+    'required_items': fields.List(fields.Nested(required), readonly=True),
 })
 
 @api.route('/')
