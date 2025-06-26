@@ -9,6 +9,7 @@ story = api.model('Story', {
     'name':         fields.String(required=True, description='Nom de l\'histoire'),
     'img_url':      fields.String(required=True, description='URL de l\'image de l\'histoire'),
     'description':  fields.String(required=True, description='Description de l\'histoire'),
+    'first_chapter_id':  fields.Integer(required=True, description='Identifiant du premier chapitre de l\'histoire'),
 })
 
 @api.route('/')
