@@ -30,7 +30,7 @@ class ChoiceList(Resource):
             'story_id': prev_chapter['story_id'],
             'prev_choice_id': id
         })
-        return new_choice, 201
+        return get_choice(id), 201
 
 @api.route('/<int:id>')
 class ChoiceDetail(Resource):
