@@ -13,8 +13,8 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
-api = Api(app, version='Beta', title='Loubki API',
-    description='API de l\'application Loubki')
+api = Api(app, version='1.0', title='Loubki API',
+    description="Loubki est une application qui propose une narration dynamique où les choix des utilisateurs influencent le déroulement de l'histoire. Grâce à un système d'inventaire intégré, chaque utilisateur peut collecter, utiliser ou échanger des objets qui modifient les options narratives disponibles, enrichissant ainsi l'expérience de jeu. L'API offre des endpoints pour l’accès aux chapitres, la modification d'histoires et l'accès aux chapitres.")
 
 api.add_namespace(story_ns,     path='/stories')
 api.add_namespace(chapter_ns,   path='/chapters')
