@@ -58,17 +58,17 @@ def create_choice(data):
     return cur.lastrowid
 
 @staticmethod
-def update_choice(choice_id, content=None, prev_chapter_id=None):
+def update_choice(choice_id, data):
     db = get_db()
     cur = db.cursor()
     fields = []
     values = []
-    if content is not None:
+    if 'content' in data:
         fields.append("content=?")
-        values.append(content)
-    if prev_chapter_id is not None:
+        values.append(data['content'])
+    if 'prev_chapter_id' in data:
         fields.append("prev_chapter_id=?")
-        values.append(prev_chapter_id)
+        values.append(data['prev_chapter_id'])
     values.append(choice_id)
     cur.execute(
         f"UPDATE choice SET {', '.join(fields)} WHERE id=?",
