@@ -17,7 +17,8 @@ def get_chapter(id):
     cur.execute("SELECT * FROM chapter WHERE id=?", (id,))
     columns = [desc[0] for desc in cur.description]
     row = cur.fetchone()
-    return dict(zip(columns, row))
+    if row:
+        return dict(zip(columns, row))
 
 # CREATE
 

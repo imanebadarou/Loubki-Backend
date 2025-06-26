@@ -16,7 +16,8 @@ def get_item(id):
     cur.execute('SELECT * FROM item WHERE id=?',(id,))
     columns = [desc[0] for desc in cur.description]
     row = cur.fetchone()
-    return dict(zip(columns, row))
+    if row:
+        return dict(zip(columns, row))
 
 @staticmethod
 def list_required_items(choice_id):
