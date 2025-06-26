@@ -25,9 +25,12 @@ class RequiredDetail(Resource):
     @api.marshal_with(required)
     def put(self, choice_id, item_id):
         data = api.payload
-        update_required(item_id, choice_id, data)
-        return get_required(item_id, choice_id)
+        if update_required(item_id, choice_id, data):
+            return get_required(item_id, choice_id)
+        else:
+            api.abort(404, f"Required with item_id {item_id} and choice_id {choice_id} not found")
 
     @api.response(204, 'Required deleted')
     def delete(self, choice_id, item_id):
-        delete_required(item_id, choice_id)
+        if not delete_required(item_id, choice_id):
+            api.abort(404, f"Required with item_id {item_id} and choice_id {choice_id} not found")

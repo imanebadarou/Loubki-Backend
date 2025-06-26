@@ -60,7 +60,7 @@ def update_item(id, data):
     sql = f"UPDATE item SET {', '.join(fields)} WHERE id=?"
     cur.execute(sql, values)
     get_db().commit()
-    return
+    return cur.rowcount > 0
 
 # DELETE
 
@@ -69,4 +69,4 @@ def delete_item(id):
     cur = get_db().cursor()
     cur.execute('DELETE FROM item WHERE id=?', (id,))
     get_db().commit()
-    return
+    return cur.rowcount > 0

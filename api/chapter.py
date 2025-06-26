@@ -48,6 +48,10 @@ class ChapterDetail(Resource):
     @api.marshal_with(chapter_detail)
     def get(self, id):
         chapter = get_chapter(id)
+
+        if not chapter:
+            api.abort(404, f"Chapter with id {id} not found")
+
         choices = list_chapter_choices(id)
         received_items = list_items_received(id)
 
@@ -65,5 +69,7 @@ class ChapterDetail(Resource):
     @api.marshal_with(chapter)
     def put(self, id):
         data = api.payload
-        update_chapter(id, data)
-        return get_chapter(id)
+        if update_chapter(id, data):
+            return get_chapter(id)
+        else:
+            api.abort(404, f"Chapter with id {id} not found")

@@ -26,18 +26,24 @@ class ItemList(Resource):
 class ItemResource(Resource):
     @api.marshal_with(item)
     def get(self, id):
-        return get_item(id)
+        item = get_item(id)
+        if not item:
+            api.abort(404, f"Item with id {id} not found")
+        return item
 
     @api.expect(item)
     @api.marshal_with(item)
     def put(self, id):
         data = api.payload
-        update_item(id, data)
-        return get_item(id)
+        if update_item(id, data):
+            return get_item(id)
+        else:
+            api.abort(404, f"Item with id {id} not found")
 
     @api.response(204, 'Item deleted')
     def delete(self, id):
-        delete_item(id)
+        if not delete_item(id):
+            api.abort(404, f"Item with id {id} not found")
 
 
 @api.route('/required_from_choice/<int:choice_id>/')

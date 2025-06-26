@@ -24,9 +24,12 @@ class ReceiveDetail(Resource):
     @api.marshal_with(receive)
     def put(self, chapter_id, item_id):
         data = api.payload
-        update_receive(item_id, chapter_id, data)
-        return get_receive(item_id, chapter_id)
+        if update_receive(item_id, chapter_id, data):
+            return get_receive(item_id, chapter_id)
+        else:
+            api.abort(404, f"Receive with item_id {item_id} and chapter_id {chapter_id} not found")
 
     @api.response(204, 'Receive deleted')
     def delete(self, chapter_id, item_id):
-        delete_receive(item_id, chapter_id)
+        if not delete_receive(item_id, chapter_id):
+            api.abort(404, f"Receive with item_id {item_id} and chapter_id {chapter_id} not found")

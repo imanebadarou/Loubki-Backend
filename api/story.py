@@ -35,15 +35,21 @@ class StoryList(Resource):
 class StoryDetail(Resource):
     @api.marshal_with(story)
     def get(self, id):
-        return get_story(id)
-    
+        story = get_story(id)
+        if not story:
+            api.abort(404, f"Story with id {id} not found")
+        return story
+
     @api.expect(story)
     @api.marshal_with(story)
     def put(self, id):
         data = api.payload
-        update_story(id, data)
-        return get_story(id)
+        if update_story(id, data):
+            return get_story(id)
+        else:
+            api.abort(404, f"Story with id {id} not found")
 
     @api.response(204, 'Story deleted')
     def delete(self, id):
-        delete_story(id)
+        if not delete_story(id):
+            api.abort(404, f"Story with id {id} not found")
