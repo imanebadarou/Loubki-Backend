@@ -30,13 +30,15 @@ class ChoiceList(Resource):
             'story_id': prev_chapter['story_id'],
             'prev_choice_id': id
         })
-        return new_choice, 201
+        return get_choice(id), 201
 
 @api.route('/<int:id>')
 class ChoiceDetail(Resource):
     @api.marshal_with(choice)
     def get(self, id):
         choice = get_choice(id)
+        if not choice:
+            api.abort(404, f"Choice with id {id} not found")
         choice['required_items'] = list_required_items(id)
         return choice
     
@@ -44,14 +46,18 @@ class ChoiceDetail(Resource):
     @api.marshal_with(choice)
     def put(self, id):
         data = api.payload
-        update_choice(id, data)
-        updated_choice = get_choice(id)
-        updated_choice['required_items'] = list_required_items(id)
-        return updated_choice
+        if update_choice(id, data):
+            updated_choice = get_choice(id)
+            updated_choice['required_items'] = list_required_items(id)
+            return updated_choice
+        else:
+            api.abort(404, f"Choice with id {id} not found")
 
     @api.response(204, 'Choice deleted')
     def delete(self, id):
         choice = get_choice(id)
+        if not choice:
+            api.abort(404, f"Choice with id {id} not found")
         delete_choice(id)
         delete_chapter(choice['next_chapter_id'])
 

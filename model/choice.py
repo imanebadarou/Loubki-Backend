@@ -28,10 +28,8 @@ def get_choice(id):
     )
     columns = [desc[0] for desc in cur.description]
     row = cur.fetchone()
-    print("ICI")
-    print(id)
-    print(row)
-    return dict(zip(columns, row))
+    if row:
+        return dict(zip(columns, row))
 
 @staticmethod
 def list_chapter_choices(chapter_id):

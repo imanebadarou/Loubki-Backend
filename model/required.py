@@ -13,7 +13,8 @@ def get_required(item_id, choice_id):
     """, (item_id, choice_id))
     columns = [desc[0] for desc in cur.description]
     row = cur.fetchone()
-    return dict(zip(columns, row))
+    if row:
+        return dict(zip(columns, row))
 
 @staticmethod
 def create_required(data):

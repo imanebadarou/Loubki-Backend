@@ -16,7 +16,8 @@ def get_story(id):
     cur.execute('SELECT * FROM story WHERE id=?',(id,))
     columns = [desc[0] for desc in cur.description]
     row = cur.fetchone()
-    return dict(zip(columns, row))
+    if row:
+        return dict(zip(columns, row))
 
 # CREATE
 
